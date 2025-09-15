@@ -10,3 +10,5 @@ Take a config value to point to a .cklb file (Created via STIGVIEWER), this coul
 Write integration with OPA, Kyverno etc. to write automation to auto-check and fill out the checklist. 
 
 Eventually will need a way to fetch live configs (API, kubernetes, file etc.)
+
+![stigctl validate](stigctl-concept.drawio.png)
