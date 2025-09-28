@@ -1,0 +1,32 @@
+# Project Architecture
+
+This is a Golang CLI application with:
+
+- CLI Commands in `/cmd`
+- Core logic in `/internal`
+- Configuration in `/config`
+
+## Project goals
+
+- Easily convert STIG Checklists into OSCAL Content (Component definitions, SSPs, Assessment plans, Assessment results, POAM's)
+- Take automation content for tools such as OPA, Kyverno and place it into OSCAL for easy reference 
+- Automatically fill out stig checklists based on the results of automated tools
+- Update assessment result documents when the tool runs an assessment 
+- Create or update an existing POAM for any findings
+
+## Coding Standards
+
+- Use TypeScript for all new files
+- Follow the existing naming conventions
+- Write tests for all new features
+
+## Document schemas & references
+
+- cklb schema in `/references/cklb/cklb-json-schema.json`
+- cci reference in `/references/cci/control-identifiers.xml`
+- NIST OSCAL schema references [OSCAL v1.1.3](https://pages.nist.gov/OSCAL-Reference/models/v1.1.3/)
+
+## External dependencies
+
+- This tools command line is based on the [Cobra Project](https://github.com/spf13/cobra)
+- This tool uses the [Viper project](https://github.com/spf13/viper) for configurations
