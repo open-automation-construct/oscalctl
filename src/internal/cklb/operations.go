@@ -3,7 +3,7 @@ package cklb
 import (
 	"encoding/json"
 	"fmt"
-	"io/ioutil"
+	"os"
 )
 
 // Checklist implements the ChecklistInterface
@@ -13,7 +13,7 @@ type Checklist struct {
 
 // LoadFromFile loads a CKLB file into the Checklist struct
 func (c *Checklist) LoadFromFile(filename string) error {
-	data, err := ioutil.ReadFile(filename)
+	data, err := os.ReadFile(filename)
 	if err != nil {
 		return err
 	}
@@ -28,7 +28,7 @@ func (c *Checklist) SaveToFile(filename string) error {
 		return err
 	}
 	
-	return ioutil.WriteFile(filename, data, 0644)
+	return os.WriteFile(filename, data, 0644)
 }
 
 // GetSTIGs returns all STIGs in the checklist
