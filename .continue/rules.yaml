@@ -1,7 +1,10 @@
 # Project Architecture
 
-description This is a Golang CLI application with:
+name: "STIGCTL Claude Rules"
+version: "1"
+context: This is a golang command line tool that works with DISA STIGS and NIST OSCAL
 
+rules:
 - CLI Commands in `/cmd`
 - Core logic in `/internal`
 - Configuration in `/config`

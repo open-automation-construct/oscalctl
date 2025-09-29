@@ -1,4 +1,4 @@
-module github.com/Eric-Domeier/stigctl
+module github.com/open-automation-construct/stigctl
 
 go 1.23.0
 
@@ -25,6 +25,4 @@ require (
 	golang.org/x/text v0.28.0 // indirect
 )
 
-replace github.com/Eric-Domeier/stigctl/src/cmd/hello => ./src/cmd/hello
-
-replace github.com/Eric-Domeier/stigctl/src/cmd/version => ./src/cmd/version
+replace github.com/open-automation-construct/stigctl/cmd => ./src/cmd
