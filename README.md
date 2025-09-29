@@ -1,4 +1,4 @@
 # stigctl
 A Golang STIG/OSCAL Automation Tool
 
-![stigctl validate](stigctl-concept.drawio.png)
+![stigctl vision](stigctl-concept.drawio-1.png)
