@@ -33,3 +33,4 @@ rules:
 
 - This tools command line is based on the [Cobra Project](https://github.com/spf13/cobra)
 - This tool uses the [Viper project](https://github.com/spf13/viper) for configurations
+- This tool uses https://pkg.go.dev/github.com/defenseunicorns/go-oscal/src/types/oscal-1-1-3#pkg-types for oscal types
