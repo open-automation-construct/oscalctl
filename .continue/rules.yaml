@@ -1,6 +1,6 @@
 # Project Architecture
 
-This is a Golang CLI application with:
+description This is a Golang CLI application with:
 
 - CLI Commands in `/cmd`
 - Core logic in `/internal`
