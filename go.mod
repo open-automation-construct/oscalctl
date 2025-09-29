@@ -1,10 +1,12 @@
-module github.com/Eric-Domeier/stigctl
+module github.com/open-automation-construct/stigctl
 
 go 1.23.0
 
 toolchain go1.24.7
 
 require (
+	github.com/defenseunicorns/go-oscal v0.7.0
+	github.com/google/uuid v1.6.0
 	github.com/spf13/cobra v1.10.1
 	github.com/spf13/viper v1.21.0
 )
@@ -25,6 +27,14 @@ require (
 	golang.org/x/text v0.28.0 // indirect
 )
 
-replace github.com/Eric-Domeier/stigctl/src/cmd/hello => ./src/cmd/hello
+replace github.com/open-automation-construct/stigctl/src/cmd => ./src/cmd
 
-replace github.com/Eric-Domeier/stigctl/src/cmd/version => ./src/cmd/version
+replace github.com/open-automation-construct/stigctl/src/internal/cklb => ./src/internal/cklb
+
+replace github.com/open-automation-construct/stigctl/src/pkg/oscal/component => ./src/pkg/oscal/component
+
+replace github.com/open-automation-construct/stigctl/src/cmd/generate/oscal/component => ./src/cmd/generate/oscal/component
+
+replace github.com/open-automation-construct/stigctl/src/cmd/generate/oscal => ./src/cmd/generate/oscal
+
+replace github.com/open-automation-construct/stigctl/src/cmd/generate => ./src/cmd/generate

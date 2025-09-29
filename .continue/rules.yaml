@@ -1,7 +1,10 @@
 # Project Architecture
 
-description This is a Golang CLI application with:
+name: "STIGCTL Claude Rules"
+version: "1"
+context: This is a golang command line tool that works with DISA STIGS and NIST OSCAL
 
+rules:
 - CLI Commands in `/cmd`
 - Core logic in `/internal`
 - Configuration in `/config`
@@ -30,3 +33,4 @@ description This is a Golang CLI application with:
 
 - This tools command line is based on the [Cobra Project](https://github.com/spf13/cobra)
 - This tool uses the [Viper project](https://github.com/spf13/viper) for configurations
+- This tool uses https://pkg.go.dev/github.com/defenseunicorns/go-oscal/src/types/oscal-1-1-3#pkg-types for oscal types
