@@ -3,7 +3,7 @@ package component
 import (
 	"github.com/spf13/cobra"
 
-	"github.com/open-automation-construct/stigctl/pkg/oscal/component"
+	"github.com/open-automation-construct/stigctl/internal/oscal/component"
 )
 
 // NewCmd creates a new OSCAL component command

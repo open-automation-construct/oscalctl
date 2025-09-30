@@ -31,7 +31,7 @@ replace github.com/open-automation-construct/stigctl/cmd => ./cmd
 
 replace github.com/open-automation-construct/stigctl/internal/cklb => ./internal/cklb
 
-replace github.com/open-automation-construct/stigctl/pkg/oscal/component => ./pkg/oscal/component
+replace github.com/open-automation-construct/stigctl/internal/oscal/component => ./internal/oscal/component
 
 replace github.com/open-automation-construct/stigctl/cmd/generate/oscal/component => ./cmd/generate/oscal/component
 
