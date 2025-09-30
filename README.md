@@ -1,7 +1,7 @@
 # stigctl
 A Golang STIG/OSCAL Automation Tool
 
-![stigctl vision](stigctl-concept.drawio-1.png)
+![stigctl vision](docs/diagrams/stigctl-concept.drawio-1.png)
 
 ## Overview
 
