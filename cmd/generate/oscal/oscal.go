@@ -42,13 +42,23 @@ that can be used with OSCAL-compatible tools.`,
 	componentCmd.Flags().String("cci-map", "", "Path to a custom CCI XML document (optional, uses embedded CCI list if not specified)")
 
 	// Bind flags to viper
-	viper.BindPFlag("oscal.component.input", componentCmd.Flags().Lookup("input"))
-	viper.BindPFlag("oscal.component.output", componentCmd.Flags().Lookup("output"))
-	viper.BindPFlag("oscal.component.cciMap", componentCmd.Flags().Lookup("cci-map"))
+	if err := viper.BindPFlag("oscal.component.input", componentCmd.Flags().Lookup("input")); err != nil {
+		fmt.Fprintf(os.Stderr, "Error binding flag: %v\n", err)
+	}
+	if err := viper.BindPFlag("oscal.component.output", componentCmd.Flags().Lookup("output")); err != nil {
+		fmt.Fprintf(os.Stderr, "Error binding flag: %v\n", err)
+	}
+	if err := viper.BindPFlag("oscal.component.cciMap", componentCmd.Flags().Lookup("cci-map")); err != nil {
+		fmt.Fprintf(os.Stderr, "Error binding flag: %v\n", err)
+	}
 
 	// Mark required flags
-	componentCmd.MarkFlagRequired("input")
-	componentCmd.MarkFlagRequired("output")
+	if err := componentCmd.MarkFlagRequired("input"); err != nil {
+		fmt.Fprintf(os.Stderr, "Error marking flag as required: %v\n", err)
+	}
+	if err := componentCmd.MarkFlagRequired("output"); err != nil {
+		fmt.Fprintf(os.Stderr, "Error marking flag as required: %v\n", err)
+	}
 
 	return componentCmd
 }

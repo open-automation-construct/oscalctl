@@ -5,6 +5,7 @@ import (
 	"encoding/xml"
 	"io"
 	"os"
+	"fmt"
 	"regexp"
 	"strings"
 )
@@ -104,18 +105,18 @@ func IsValidOSCALToken(s string) bool {
 	
 	// First character must be a letter or underscore
 	firstChar := []rune(s)[0]
-	if !((firstChar >= 'a' && firstChar <= 'z') || 
-	     (firstChar >= 'A' && firstChar <= 'Z') || 
-	     firstChar == '_') {
+	if (firstChar < 'a' || firstChar > 'z') && 
+	   (firstChar < 'A' || firstChar > 'Z') && 
+	   firstChar != '_' {
 		return false
 	}
 	
 	// Rest of characters must be letters, numbers, dots, hyphens, or underscores
 	for _, c := range s[1:] {
-		if !((c >= 'a' && c <= 'z') || 
-		     (c >= 'A' && c <= 'Z') || 
-		     (c >= '0' && c <= '9') || 
-		     c == '.' || c == '-' || c == '_') {
+		if (c < 'a' || c > 'z') && 
+		   (c < 'A' || c > 'Z') && 
+		   (c < '0' || c > '9') && 
+		   c != '.' && c != '-' && c != '_' {
 			return false
 		}
 	}
@@ -129,7 +130,11 @@ func GetEmbeddedCCIControlMap() (map[string]string, error) {
 	if err != nil {
 		return nil, err
 	}
-	defer file.Close()
+	defer func() {
+		if err := file.Close(); err != nil {
+			fmt.Fprintf(os.Stderr, "Error closing file: %v\n", err)
+		}
+	}()
 	
 	return ParseCCIDocumentReader(file)
 }
@@ -147,7 +152,11 @@ func ParseCCIDocument(filePath string) (map[string]string, error) {
 	if err != nil {
 		return nil, err
 	}
-	defer file.Close()
+	defer func() {
+		if err := file.Close(); err != nil {
+			fmt.Fprintf(os.Stderr, "Error closing file: %v\n", err)
+		}
+	}()
 	
 	return ParseCCIDocumentReader(file)
 }
