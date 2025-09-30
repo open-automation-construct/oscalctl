@@ -27,14 +27,14 @@ require (
 	golang.org/x/text v0.28.0 // indirect
 )
 
-replace github.com/open-automation-construct/stigctl/src/cmd => ./src/cmd
+replace github.com/open-automation-construct/stigctl/cmd => ./cmd
 
-replace github.com/open-automation-construct/stigctl/src/internal/cklb => ./src/internal/cklb
+replace github.com/open-automation-construct/stigctl/internal/cklb => ./internal/cklb
 
-replace github.com/open-automation-construct/stigctl/src/pkg/oscal/component => ./src/pkg/oscal/component
+replace github.com/open-automation-construct/stigctl/pkg/oscal/component => ./pkg/oscal/component
 
-replace github.com/open-automation-construct/stigctl/src/cmd/generate/oscal/component => ./src/cmd/generate/oscal/component
+replace github.com/open-automation-construct/stigctl/cmd/generate/oscal/component => ./cmd/generate/oscal/component
 
-replace github.com/open-automation-construct/stigctl/src/cmd/generate/oscal => ./src/cmd/generate/oscal
+replace github.com/open-automation-construct/stigctl/cmd/generate/oscal => ./cmd/generate/oscal
 
-replace github.com/open-automation-construct/stigctl/src/cmd/generate => ./src/cmd/generate
+replace github.com/open-automation-construct/stigctl/cmd/generate => ./cmd/generate
