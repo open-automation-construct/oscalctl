@@ -38,3 +38,5 @@ replace github.com/open-automation-construct/oscalctl/cmd/generate/oscal/compone
 replace github.com/open-automation-construct/oscalctl/cmd/generate/oscal => ./cmd/generate/oscal
 
 replace github.com/open-automation-construct/oscalctl/cmd/generate => ./cmd/generate
+
+replace github.com/open-automation-construct/oscalctl/internal/oscal/common => ./internal/oscal
