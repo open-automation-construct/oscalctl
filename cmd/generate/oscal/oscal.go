@@ -19,6 +19,14 @@ func NewCmd() *cobra.Command {
 		Long:  `Generate various OSCAL artifacts from STIG data, such as component definitions.`,
 	}
 
+	// Add global flags for all OSCAL subcommands
+	oscalCmd.PersistentFlags().StringP("title", "t", "", "Custom title for OSCAL documents")
+	
+	// Bind flags to viper
+	if err := viper.BindPFlag("oscal.title", oscalCmd.PersistentFlags().Lookup("title")); err != nil {
+		fmt.Fprintf(os.Stderr, "Error binding flag: %v\n", err)
+	}
+
 	// Add subcommand
 	oscalCmd.AddCommand(newComponentCmd())
 
@@ -68,6 +76,7 @@ func generateOSCALComponent(cmd *cobra.Command, args []string) error {
 	inputPath := viper.GetString("oscal.component.input")
 	outputPath := viper.GetString("oscal.component.output")
 	cciPath := viper.GetString("oscal.component.cciMap")
+	title := viper.GetString("oscal.title")
 
 	// Verify input file exists
 	if _, err := os.Stat(inputPath); os.IsNotExist(err) {
@@ -88,6 +97,11 @@ func generateOSCALComponent(cmd *cobra.Command, args []string) error {
 		fmt.Printf("Using custom CCI mapping file: %s\n", cciPath)
 	} else {
 		fmt.Println("Using embedded CCI mapping file")
+	}
+
+	// Display title if specified
+	if title != "" {
+		fmt.Printf("Using custom title: %s\n", title)
 	}
 
 	// Generate the OSCAL component

@@ -62,10 +62,10 @@ checklists or generating new ones based on templates, or converting them to othe
 	generateCmd.Flags().StringP("cklbFile", "f", "", "Path of the checklist file to process")
 
 	if err := viper.BindPFlag("cklbFile", generateCmd.Flags().Lookup("cklbFile")); err != nil {
-	// Handle the error - in a function that can't return an error, we can panic or log
-	// Since this is part of initialization, panicking is reasonable
-	panic(fmt.Sprintf("Failed to bind flag 'cklbFile': %v", err))
-}
+		// Handle the error - in a function that can't return an error, we can panic or log
+		// Since this is part of initialization, panicking is reasonable
+		panic(fmt.Sprintf("Failed to bind flag 'cklbFile': %v", err))
+	}
 
 	return generateCmd
 }
