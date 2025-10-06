@@ -11,8 +11,8 @@ import (
 
 	oscalTypes "github.com/defenseunicorns/go-oscal/src/types/oscal-1-1-3"
 
-	"github.com/open-automation-construct/stigctl/internal/cciparsing"
-	"github.com/open-automation-construct/stigctl/internal/cklb"
+	"github.com/open-automation-construct/oscalctl/internal/cciparsing"
+	"github.com/open-automation-construct/oscalctl/internal/cklb"
 )
 
 func GenerateComponent(inputPath, outputPath, cciPath string) error {

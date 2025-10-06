@@ -6,8 +6,8 @@ import (
 	"github.com/spf13/cobra"
 	"github.com/spf13/viper"
 	
-	"github.com/open-automation-construct/stigctl/internal/cklb"
-	"github.com/open-automation-construct/stigctl/cmd/generate/oscal"
+	"github.com/open-automation-construct/oscalctl/internal/cklb"
+	"github.com/open-automation-construct/oscalctl/cmd/generate/oscal"
 )
 
 // NewCmd creates a new generate command

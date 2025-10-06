@@ -13,7 +13,7 @@ import (
 	"github.com/spf13/cobra"
 	"github.com/spf13/viper"
 	
-	"github.com/open-automation-construct/stigctl/cmd/generate"
+	"github.com/open-automation-construct/oscalctl/cmd/generate"
 )
 
 
@@ -22,7 +22,7 @@ var (
 cfgFile string
 
 rootCmd = &cobra.Command{
-	Use:   "stigctl",
+	Use:   "oscalctl",
 	Short: "A brief description of your application",
 	Long: `A longer description that spans multiple lines and likely contains
 examples and usage of using your application. For example:
@@ -47,7 +47,7 @@ func Execute() {
 }
 
 func init() {
-    rootCmd.PersistentFlags().StringVar(&cfgFile, "config", "", "config file (default locations: ., $HOME/.stigctl/)")
+    rootCmd.PersistentFlags().StringVar(&cfgFile, "config", "", "config file (default locations: ., $HOME/.oscalctl/)")
 
 	generateCmd := generate.NewCmd()
     rootCmd.AddCommand(generateCmd)
@@ -62,7 +62,7 @@ func init() {
 
 func initializeConfig(cmd *cobra.Command) error {
 // 1. Set up Viper to use environment variables.
-viper.SetEnvPrefix("STIGCTL")
+viper.SetEnvPrefix("oscalctl")
 // Allow for nested keys in environment variables (e.g. `MYAPP_DATABASE_HOST`)
 viper.SetEnvKeyReplacer(strings.NewReplacer(".", "*", "-", "*"))
 viper.AutomaticEnv()
@@ -80,7 +80,7 @@ if cfgFile != "" {
 
 	// Search for a config file with the name "config" (without extension).
 	viper.AddConfigPath(".")
-	viper.AddConfigPath(home + "/.stigctl")
+	viper.AddConfigPath(home + "/.oscalctl")
 	viper.SetConfigName("config")
 	viper.SetConfigType("yaml")
 }
