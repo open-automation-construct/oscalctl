@@ -3,7 +3,7 @@ package common
 import (
 	"encoding/base64"
 	"fmt"
-	"io/ioutil"
+	"os"
 	"path/filepath"
 
 	oscalTypes "github.com/defenseunicorns/go-oscal/src/types/oscal-1-1-3"
@@ -13,7 +13,7 @@ import (
 // AddB64Resource creates a back-matter resource with base64 encoded content
 func AddB64Resource(filePath, title, description string) (*oscalTypes.Resource, error) {
 	// Read the file
-	fileData, err := ioutil.ReadFile(filePath)
+	fileData, err := os.ReadFile(filePath)
 	if err != nil {
 		return nil, fmt.Errorf("failed to read file for base64 encoding: %w", err)
 	}
