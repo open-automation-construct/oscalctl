@@ -8,6 +8,7 @@ import (
 	"time"
 
 	"github.com/google/uuid"
+	"github.com/spf13/viper"
 
 	oscalTypes "github.com/defenseunicorns/go-oscal/src/types/oscal-1-1-3"
 
@@ -82,10 +83,17 @@ func createComponent(checklist *cklb.Checklist, cciControlMap map[string]string)
     componentDefUUID := uuid.New().String()
     componentUUID := uuid.New().String()
     
+    // Get custom title if specified, otherwise use checklist title
+    customTitle := viper.GetString("oscal.title")
+    title := checklist.Data.Title
+    if customTitle != "" {
+        title = customTitle
+    }
+    
     // Build metadata
     lastModified := time.Now()
     metadata := oscalTypes.Metadata{
-        Title: checklist.Data.Title,
+        Title: title,
         LastModified: lastModified,
         Version: "1.0.0",
         OscalVersion: "1.1.3",
@@ -95,7 +103,7 @@ func createComponent(checklist *cklb.Checklist, cciControlMap map[string]string)
     definedComponent := oscalTypes.DefinedComponent{
         UUID: componentUUID,
         Type: "software",
-        Title: checklist.Data.Title,
+        Title: title,
         Description: fmt.Sprintf("Component definition generated from STIG: %s", checklist.Data.Title),
     }
     
