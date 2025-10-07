@@ -14,6 +14,7 @@ import (
 
 	"github.com/open-automation-construct/oscalctl/internal/cciparsing"
 	"github.com/open-automation-construct/oscalctl/internal/cklb"
+    "github.com/open-automation-construct/oscalctl/internal/oscal/common"
 )
 
 func GenerateComponent(inputPath, outputPath, cciPath string) error {
@@ -29,8 +30,8 @@ func GenerateComponent(inputPath, outputPath, cciPath string) error {
 		return fmt.Errorf("failed to parse CCI document: %w", err)
 	}
 
-	// Generate OSCAL component
-	component, err := createComponent(checklist, cciControlMap)
+	// Generate OSCAL component - pass the inputPath to createComponent
+	component, err := createComponent(checklist, cciControlMap, inputPath)
 	if err != nil {
 		return fmt.Errorf("failed to create OSCAL component: %w", err)
 	}
@@ -78,47 +79,70 @@ func extractCCINumbers(rule cklb.STIGRule) []string {
 	return cciNumbers
 }
 
-func createComponent(checklist *cklb.Checklist, cciControlMap map[string]string) (*oscalTypes.ComponentDefinition, error) {
-    // Generate UUIDs
-    componentDefUUID := uuid.New().String()
-    componentUUID := uuid.New().String()
-    
-    // Get custom title if specified, otherwise use checklist title
-    customTitle := viper.GetString("oscal.title")
-    title := checklist.Data.Title
-    if customTitle != "" {
-        title = customTitle
-    }
-    
-    // Build metadata
-    lastModified := time.Now()
-    metadata := oscalTypes.Metadata{
-        Title: title,
-        LastModified: lastModified,
-        Version: "1.0.0",
-        OscalVersion: "1.1.3",
-    }
-    
-    // Build the component
-    definedComponent := oscalTypes.DefinedComponent{
-        UUID: componentUUID,
-        Type: "software",
-        Title: title,
-        Description: fmt.Sprintf("Component definition generated from STIG: %s", checklist.Data.Title),
-    }
-    
-    // Set control implementation sets
-    controlImplementationSets := buildControlImplementationSets(checklist, cciControlMap)
-    definedComponent.ControlImplementations = &controlImplementationSets
-    
-    // Create the component definition
-    component := &oscalTypes.ComponentDefinition{
-        UUID: componentDefUUID,
-        Metadata: metadata,
-        Components: &[]oscalTypes.DefinedComponent{definedComponent},
-    }
+func createComponent(checklist *cklb.Checklist, cciControlMap map[string]string, inputPath string) (*oscalTypes.ComponentDefinition, error) {
+	// Generate UUIDs
+	componentDefUUID := uuid.New().String()
+	componentUUID := uuid.New().String()
+	
+	// Get custom title if specified, otherwise use checklist title
+	customTitle := viper.GetString("oscal.title")
+	title := checklist.Data.Title
+	if customTitle != "" {
+		title = customTitle
+	}
+	
+	// Build metadata
+	lastModified := time.Now()
+	metadata := oscalTypes.Metadata{
+		Title: title,
+		LastModified: lastModified,
+		Version: "1.0.0",
+		OscalVersion: "1.1.3",
+	}
+	
+	// Build the component
+	definedComponent := oscalTypes.DefinedComponent{
+		UUID: componentUUID,
+		Type: "software",
+		Title: title,
+		Description: fmt.Sprintf("Component definition generated from Checklist: %s", checklist.Data.Title),
+	}
+	
+	// Set control implementation sets
+	controlImplementationSets := buildControlImplementationSets(checklist, cciControlMap)
+	definedComponent.ControlImplementations = &controlImplementationSets
+	
+	// Create the component definition
+	component := &oscalTypes.ComponentDefinition{
+		UUID: componentDefUUID,
+		Metadata: metadata,
+		Components: &[]oscalTypes.DefinedComponent{definedComponent},
+	}
 
-    return component, nil
+	// Get the raw JSON data of the checklist for the back-matter resource
+	checklistJSON, err := json.Marshal(checklist)
+	if err != nil {
+		fmt.Printf("Warning: Failed to marshal checklist for back-matter resource: %v\n", err)
+	} else {
+		// Add the checklist as a back-matter resource using the already loaded data
+		if resource, err := common.AddB64Resource(
+			inputPath,
+			checklistJSON,
+			"Original STIG Checklist",
+			"Base64 encoded CKLB(json) STIG checklist used to generate this component definition",
+		); err == nil {
+			// Initialize back-matter with the resource
+			backMatter := oscalTypes.BackMatter{
+				Resources: &[]oscalTypes.Resource{*resource},
+			}
+			component.BackMatter = &backMatter
+		} else {
+			// Log the error but don't fail the whole operation
+			fmt.Printf("Warning: Failed to add checklist as back-matter resource: %v\n", err)
+		}
+	}
+
+	return component, nil
 }
 
 // buildControlImplementationSets builds control implementation sets from STIG rules
