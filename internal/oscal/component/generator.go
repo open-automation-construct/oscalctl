@@ -105,7 +105,7 @@ func createComponent(checklist *cklb.Checklist, cciControlMap map[string]string,
 		UUID: componentUUID,
 		Type: "software",
 		Title: title,
-		Description: fmt.Sprintf("Component definition generated from STIG: %s", checklist.Data.Title),
+		Description: fmt.Sprintf("Component definition generated from Checklist: %s", checklist.Data.Title),
 	}
 	
 	// Set control implementation sets
@@ -119,20 +119,27 @@ func createComponent(checklist *cklb.Checklist, cciControlMap map[string]string,
 		Components: &[]oscalTypes.DefinedComponent{definedComponent},
 	}
 
-	// Add the checklist as a back-matter resource
-	if resource, err := common.AddB64Resource(
-		inputPath,
-		"Original STIG Checklist",
-		"Base64 encoded CKLB(json) STIG checklist used to generate this component definition",
-	); err == nil {
-		// Initialize back-matter with the resource
-		backMatter := oscalTypes.BackMatter{
-			Resources: &[]oscalTypes.Resource{*resource},
-		}
-		component.BackMatter = &backMatter
+	// Get the raw JSON data of the checklist for the back-matter resource
+	checklistJSON, err := json.Marshal(checklist)
+	if err != nil {
+		fmt.Printf("Warning: Failed to marshal checklist for back-matter resource: %v\n", err)
 	} else {
-		// Log the error but don't fail the whole operation
-		fmt.Printf("Warning: Failed to add checklist as back-matter resource: %v\n", err)
+		// Add the checklist as a back-matter resource using the already loaded data
+		if resource, err := common.AddB64Resource(
+			inputPath,
+			checklistJSON,
+			"Original STIG Checklist",
+			"Base64 encoded CKLB(json) STIG checklist used to generate this component definition",
+		); err == nil {
+			// Initialize back-matter with the resource
+			backMatter := oscalTypes.BackMatter{
+				Resources: &[]oscalTypes.Resource{*resource},
+			}
+			component.BackMatter = &backMatter
+		} else {
+			// Log the error but don't fail the whole operation
+			fmt.Printf("Warning: Failed to add checklist as back-matter resource: %v\n", err)
+		}
 	}
 
 	return component, nil
